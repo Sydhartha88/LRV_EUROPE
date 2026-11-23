@@ -23,7 +23,7 @@
 .scenarioCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
 .forecastScenario{border:1px solid var(--line);border-radius:13px;text-align:left;padding:19px 21px;background:var(--card);color:var(--ink)}
 .forecastScenario.selected{border:2px solid var(--primary);padding:18px 20px;background:#f0f3ff;box-shadow:0 4px 18px #2444ad16}
-.forecastScenarioLabel{font-size:14px;font-weight:850;color:var(--primary)}.forecastScenarioMain{font-size:30px;font-weight:950;letter-spacing:-.4px;margin:5px 0}
+.forecastScenarioLabel{font-size:14px;font-weight:850;color:var(--primary)}.forecastScenarioMain{font-size:30px;font-weight:950;letter-spacing:-.4px;margin:5px 0}.forecastScenarioMain span{font-size:14px;color:var(--muted);font-weight:650}
 .forecastScenarioSub{font-size:13px;color:var(--muted);margin-top:6px}.forecastScenarioSub b{color:var(--ink)}
 .forecastPanel .scenarioTag{font-size:12px;font-weight:850;background:var(--soft);padding:5px 10px;border-radius:7px;color:var(--primary)}
 .forecastKpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:18px 0 20px}
@@ -145,10 +145,8 @@ function renderForecast(){
  const active=scenarioState.active,sc=DATA.forecast.scenarios[active],summary=totals(active),roas=summary.spend?summary.revenue/summary.spend:0;
  $("#scenarioCards").innerHTML=Object.keys(SCENARIO_LABELS).map(key=>{
  const x=totals(key),r=x.spend?x.revenue/x.spend:0;
- return'<button class="forecastScenario '+(key===active?"selected":"")+'" data-scenario="'+key+'"><div class="forecastScenarioLabel">'+SCENARIO_LABELS[key]+'</div><div class="forecastScenarioMain">'+eur(x.tickets)+' <span>не €</span></div><div class="forecastScenarioSub">билетов: <b>'+fmt(x.tickets)+'</b> · расход '+eur(x.spend)+'</div><div class="forecastScenarioSub">Gross ROAS '+r.toFixed(2)+'×</div></button>';
+ return'<button class="forecastScenario '+(key===active?"selected":"")+'" data-scenario="'+key+'"><div class="forecastScenarioLabel">'+SCENARIO_LABELS[key]+'</div><div class="forecastScenarioMain">'+fmt(x.tickets)+' <span>билетов</span></div><div class="forecastScenarioSub">билетов: <b>'+fmt(x.tickets)+'</b> · расход '+eur(x.spend)+'</div><div class="forecastScenarioSub">Gross ROAS '+r.toFixed(2)+'×</div></button>';
  }).join("");
- // Replace the numbers-only title with a visually prominent ticket count.
- $("#scenarioCards").innerHTML=$("#scenarioCards").innerHTML.replaceAll(/<div class="forecastScenarioMain">[^<]+<span>не €<\/span><\/div>/g,"");
  $("#forecastHeadline").textContent=SCENARIO_LABELS[active]+" — прогноз Search";
  $("#forecastAssumptions").textContent="CVR "+(sc.cvr*100).toFixed(1)+"% · CTR "+(sc.ctr*100).toFixed(0)+"% · конкурентный спрос "+(sc.competitorShare*100).toFixed(0)+"% от предполагаемого пула";
  $("#forecastKpis").innerHTML=[
