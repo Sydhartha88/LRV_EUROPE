@@ -285,18 +285,18 @@ function trafficRender(){
  '<div><div class="trafficNum">'+b.share.toFixed(1)+'% <small>· '+NF(base)+' показов/мес. модели</small></div><div class="trafficBar"><div style="width:'+b.share+'%;background:'+b.color+'"></div></div><div class="weightControl"><input type="range" min="0" max="100" value="'+b.manualWeight+'" data-weight="'+esc(b.name)+'" title="Изменить предположение о доле"><em>вес '+b.manualWeight+'</em></div><div class="cKeywords">'+keys+'</div></div>'+
  '<div><p class="cAction">'+esc(b.action)+'</p><div class="cActionBtns"><button data-copybrand="'+esc(b.name)+'">Копировать ключи</button><button data-budgetbrand="'+esc(b.name)+'">Бюджет →</button></div></div></div>'
  }).join("");
- $("#countryStrip [data-geo]").forEach(btn=>btn.onclick=()=>selectMarket(btn.dataset.geo));
- $("#competitorList [data-weight]").forEach(input=>input.oninput=()=>{
+ all("#countryStrip [data-geo]").forEach(btn=>btn.onclick=()=>selectMarket(btn.dataset.geo));
+ all("#competitorList [data-weight]").forEach(input=>input.oninput=()=>{
   const name=input.dataset.weight;
   if(!marketState.weights[g])marketState.weights[g]={};
   marketState.weights[g][name]=Number(input.value);
   trafficRender();
  });
- $("#competitorList [data-copybrand]").forEach(btn=>btn.onclick=()=>{
+ all("#competitorList [data-copybrand]").forEach(btn=>btn.onclick=()=>{
   const x=brands.find(x=>x.name===btn.dataset.copybrand);if(!x)return;
   const t=x.keys.join("\n");if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(()=>showNotice("Ключи скопированы")).catch(()=>copyFallback(t))}else copyFallback(t);
  });
- $("#competitorList [data-budgetbrand]").forEach(btn=>btn.onclick=()=>{changePage("budget");$("#budgetCountry").value=g;budgetBrands()});
+ all("#competitorList [data-budgetbrand]").forEach(btn=>btn.onclick=()=>{changePage("budget");$("#budgetCountry").value=g;budgetBrands()});
 }
 function scenarioModel(){
  return{low:{ctr:.07,cvr:.015,mult:1.25,tpo:1.6},base:{ctr:.10,cvr:.026,mult:1,tpo:1.7},high:{ctr:.13,cvr:.04,mult:.85,tpo:1.8}}[marketState.scenario];
@@ -319,8 +319,8 @@ function budgetRender(){
   return'<tr><td class="budgetGeo"><button data-budgetgeo="'+x.g+'">'+CNAME(x.g)+'</button></td><td><input class="budgetInput" type="number" min="0" step="50" value="'+Math.round(x.budget)+'" data-budgetinput="'+x.g+'"></td><td>'+MONEY(x.capacity)+'</td><td><b>'+MONEY(x.spend)+'</b></td><td>'+NF(x.clicks)+'</td><td>'+NF(x.orders)+'</td><td>'+NF(x.tickets)+'</td><td class="noteCell">'+note+'</td></tr>';
  }).join("");
  $("#budgetFootnote").textContent="*Заказы/билеты — сценарные значения при моделируемом CVR "+(scenarioModel().cvr*100).toFixed(1)+"%, не прогноз реальных продаж. Германия и Испания без открытых продаж: в purchase-модели ноль. Неосвоенный бюджет нельзя автоматически переносить в generic Search.";
- $("#budgetRows [data-budgetinput]").forEach(inp=>inp.onchange=()=>{marketState.budgets[inp.dataset.budgetinput]=Math.max(0,+inp.value||0);budgetRender();budgetBrands()});
- $("#budgetRows [data-budgetgeo]").forEach(btn=>btn.onclick=()=>{const g=btn.dataset.budgetgeo;$("#budgetCountry").value=g;budgetBrands()});
+ all("#budgetRows [data-budgetinput]").forEach(inp=>inp.onchange=()=>{marketState.budgets[inp.dataset.budgetinput]=Math.max(0,+inp.value||0);budgetRender();budgetBrands()});
+ all("#budgetRows [data-budgetgeo]").forEach(btn=>btn.onclick=()=>{const g=btn.dataset.budgetgeo;$("#budgetCountry").value=g;budgetBrands()});
  budgetBrands();
 }
 function budgetBrands(){
