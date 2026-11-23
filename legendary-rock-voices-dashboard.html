@@ -40,7 +40,7 @@
 @media(max-width:680px){.scenarioCards{grid-template-columns:1fr}.forecastKpis{grid-template-columns:repeat(2,minmax(0,1fr))}.forecastMetric strong{font-size:21px}}
 
 /* Lean header and visible country-by-country market depth */
-#competitors{padding-top:23px}.country-head{margin-bottom:13px}
+#competitors{padding-top:8px}.country-head{margin-bottom:13px}
 .depthTitle{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:19px;margin:3px 0 12px}
 .depthTitle h3{font-size:19px;margin:0}.depthTitle span{font-size:12px;color:var(--muted)}
 .marketDepth{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 18px;margin:10px 0 20px}
@@ -68,7 +68,7 @@
 <section id="competitors">
 <div class="country-head"><div><div class="sectionlabel">01 / Рынок и конкуренты</div><h2 id="countryTitle">Франция — кого перехватывать</h2></div><button class="smallbutton" id="copyCountry">Скопировать все ключи страны</button></div>
 <div class="country-tabs" id="countryTabs"></div>
-<div class="stats" id="countryStats"></div>
+
 <div class="panel"><div class="panelhead"><div><h3>Конкурентная среда по форматам</h3><p class="subtle">Доля в исследуемом списке конкурентов, <b>не доля поискового трафика</b>. Прямые шоу, tribute и смежные постановки.</p></div></div><div class="typechart" id="typeChart"></div><div class="typelabels" id="typeLabels"></div></div>
 <div class="panel"><div class="actionline"><div><h3 style="margin:0 0 4px">Бренды, ключи, тактика</h3><div class="subtle" id="compCount"></div></div><input class="search" id="searchCompetitor" placeholder="Найти конкурента или запрос"></div><div class="filterrow" id="filters"><button class="filter active" data-type="all">Все</button><button class="filter" data-type="direct">Прямые</button><button class="filter" data-type="tribute">Tribute</button><button class="filter" data-type="adjacent">Смежные</button></div><div class="rival-head"><span>Конкурент и подтверждение</span><span>Что ищут / ключи для теста</span><span>Как LRV перехватывает спрос</span></div><div id="competitorRows"></div><div class="subtle" style="margin-top:15px">Ключевые фразы — гипотезы для Keyword Planner. Слова «в продаже» или «реклама работает» не выводим без проверки билетного checkout и Ads Transparency.</div></div>
 <div class="panel"><div class="panelhead"><div><h3>Решение по стране</h3><p class="subtle">Тактика из нашего рабочего исследования — отдельно от оценок спроса.</p></div></div><div class="spot" id="strategySpot"></div></div>
@@ -109,12 +109,6 @@ function renderCountry(){
  $("#countryTitle").textContent=DATA.names[g]+" — конкуренты и перехват Search";
 
  $("#countryTabs").innerHTML=DATA.order.map((id,i)=>'<button class="country-tab '+(g===id?"active":"")+'" data-geo="'+id+'">'+(i+1)+'. '+esc(DATA.names[id])+'</button>').join("");
- $("#countryStats").innerHTML=[
- ["Конкурентных позиций",b.length,"Из текущей исследовательской выборки"],
- ["Событий LRV с билетом",sig.tickets,"Статус билетов уточнять перед запуском"],
- ["Городов LRV",sig.cityCount,"Включая регистрацию и предпродажу"],
- ["Измеренный Search Volume","Нет данных","Загрузить Keyword Planner"]
- ].map(([label,value,foot])=>'<div class="stat"><div class="label">'+label+'</div><div class="value '+(typeof value==="string"?"unavailable":"")+'">'+value+'</div><div class="foot">'+foot+'</div></div>').join("");
  const types=["direct","tribute","adjacent"],counts=types.map(x=>b.filter(y=>y.type===x).length);
  $("#typeChart").innerHTML=types.map((x,i)=>'<span title="'+typeText[x]+': '+counts[i]+'" style="width:'+(100*counts[i]/Math.max(b.length,1))+'%;background:'+typeColor[x]+'"></span>').join("");
  $("#typeLabels").innerHTML=types.map((x,i)=>'<span><i class="typeicon" style="background:'+typeColor[x]+'"></i>'+typeText[x]+' <b>'+counts[i]+'</b></span>').join("");
